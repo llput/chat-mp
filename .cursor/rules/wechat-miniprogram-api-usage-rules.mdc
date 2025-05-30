@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: 微信API调用模式和最佳实践
+globs: **/*.js
+---
+- Promise封装：使用Promise封装的API调用方式代替回调
+- API错误处理：wx.api调用应包含完整的错误处理
+- 请求防抖：用户输入相关的请求应使用防抖或节流
+- 页面跳转防重：页面跳转前应防止重复点击
+- 资源清理：页面卸载时清理定时器和事件监听
+- 使用统一的API调用层，集中处理错误和加载状态
+- 合理使用wx.showLoading和wx.hideLoading提供用户反馈
+- API调用注释：在调用微信API时，添加指向文档的注释引用
+- 微信API文档位于项目目录下的weixin-doc文件夹，使用前先查阅相关文档
+- 使用新API时，负责更新或创建对应文档

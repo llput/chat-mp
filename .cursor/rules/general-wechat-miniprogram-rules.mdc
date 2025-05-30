@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: 通用的微信小程序开发原则和最佳实践
+globs: **/*.{js,wxml,wxss,json}
+---
+- 编写简洁、可读性强的JavaScript代码
+- 使用功能性和声明式编程模式
+- 遵循DRY（Don't Repeat Yourself）原则
+- 实现提前返回以提高可读性
+- 函数长度控制在50行以内，超过时考虑拆分
+- 复杂条件判断应提取为命名良好的变量或函数
+- 使用ES6特性（解构、模板字符串、箭头函数）简化代码
+- 防止this指向丢失，优先使用箭头函数或保存this引用
+- 生产代码中不应有console语句，使用logger或环境判断包装
+- 访问全局app实例应使用getApp()而非直接引用

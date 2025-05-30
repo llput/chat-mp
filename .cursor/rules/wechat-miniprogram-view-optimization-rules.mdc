@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: 微信小程序视图层优化规则
+globs: **/*.{wxml,wxs}
+---
+- 列表渲染：使用wx:for时必须指定wx:key提高性能
+- 避免wx:if与wx:for同用：使用block或提前过滤数据
+- 图片优化：使用懒加载，优先使用CDN或云存储路径
+- 滚动区域优化：长列表使用enhanced、scroll-anchoring等特性
+- 使用WXS：复杂表达式应使用WXS模块处理，提高视图层性能
+- 空状态处理：列表应处理空状态，提供友好的用户反馈
+- 使用占位图与过渡动画优化加载体验
+- 避免过深的WXML节点嵌套，控制节点总数
+- 避免频繁操作DOM，一次性更新多个元素
+- 使用block元素对相关内容进行分组而不引入额外的视图层级

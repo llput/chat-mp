@@ -1,0 +1,21 @@
+<view class="custom-nav" style="height: {{totalHeight}}px;padding-top: {{statusBarHeight}}px;">
+
+  <!-- 导航栏主体 -->
+  <view class="nav-content element" style="height: {{navBarHeight}}px;">
+
+    <!-- 左侧按钮区域 -->
+    <view class="nav-left" bindtap="onLeftIconTap" style="left: 0;">
+      <slot name="left"></slot>
+    </view>
+
+    <!-- 标题区域 -->
+    <view class="nav-title center" style="max-width: calc(100% - {{menuRight * 2}}px)" bindtap="onTitleTap">
+      <slot name="title"></slot>
+    </view>
+
+    <!-- 右侧胶囊适配区 -->
+    <view class="nav-right" style="right: 0;">
+      <slot name="right"></slot>
+    </view>
+  </view>
+</view>

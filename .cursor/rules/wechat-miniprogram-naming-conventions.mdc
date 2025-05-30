@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: 微信小程序开发命名规范和约定
+globs: **/*.{js,wxml,wxss,json}
+---
+- 变量使用camelCase（小驼峰式）
+- 常量使用UPPER_SNAKE_CASE（大写下划线式）
+- 事件处理函数使用handle/on前缀（handleTap, onButtonClick）
+- 异步函数使用async前缀或fetch/load/get等动词开头
+- WXML类名使用kebab-case（短横线式）
+- 自定义事件名使用kebab-case（如'item-tap'）
+- 文件命名使用kebab-case
+- 组件文件夹与组件名保持一致
+- 私有变量和方法使用下划线前缀
+- 模块导出使用具描述性的名称，避免default export

@@ -1,0 +1,4 @@
+# https://iwiki.woa.com/p/194198782
+source:
+  test_source:
+    filepath_regex: [".*/miniprogram_npm/.*", ".*/towxml/.*"]

@@ -1,0 +1,18 @@
+/* pages/chat/index.wxss */
+
+/* 引入 Towxml 默认样式 */
+@import '/towxml/style/main.wxss';
+@import '/towxml/style/theme/light.wxss';
+
+.page-container {
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #faf9f5;
+}
+
+.content {
+  flex: 1;
+  border-top: 2px solid red;
+}

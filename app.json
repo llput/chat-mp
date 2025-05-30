@@ -1,0 +1,12 @@
+{
+  "pages": ["pages/index/index"],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#07C160",
+    "navigationBarTitleText": "金融助手",
+    "navigationBarTextStyle": "black",
+    "handleWebviewPreload": "auto",
+    "navigationStyle": "custom"
+  },
+  "resizable": true
+}

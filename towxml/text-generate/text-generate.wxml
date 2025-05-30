@@ -1,0 +1,10 @@
+<view class="text-generate-container">
+  <view class="text-generate-content">
+    <block wx:for="{{wordsArray}}" wx:key="index">
+      <text class="text-generate-word {{animatedIndices.includes(index) ? 'animated' : ''}}"
+        style="transition: opacity {{duration}}s, filter {{duration}}s; {{blur ? 'filter: blur(' + (animatedIndices.includes(index) ? '0' : '8') + 'px);' : ''}}">
+        {{item}}
+      </text>
+    </block>
+  </view>
+</view>

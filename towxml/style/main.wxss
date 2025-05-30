@@ -1,0 +1,924 @@
+/*正文样式*/
+.h2w {
+  font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif,
+    WenQuanYi Micro Hei, sans-serif;
+  font-weight: 300;
+  font-size: 32rpx;
+  line-height: 1.8;
+  word-wrap: break-word;
+  word-break: normal;
+  text-align: justify;
+}
+
+.h2w__main {
+  margin: 0 40rpx 40rpx 40rpx;
+  padding-top: 40rpx;
+}
+
+/**标题**/
+.h2w__h1,
+.h2w__h2,
+.h2w__h3,
+.h2w__h4,
+.h2w__h5,
+.h2w__h6 {
+  font-weight: bold;
+}
+
+/**设置行间元素样式**/
+.h2w__span,
+.h2w__b,
+.h2w__strong,
+.h2w__i,
+.h2w__em,
+.h2w__code,
+.h2w__sub,
+.h2w__sup,
+.h2w__g-emoji,
+.h2w__mark,
+.h2w__u,
+.h2w__navigatorParent,
+.h2w__ins {
+  display: inline;
+}
+
+.h2w__h1 {
+  border-bottom-style: double;
+  border-bottom-width: 6rpx;
+  font-size: 42rpx;
+  padding-bottom: 10rpx;
+  margin-bottom: 20rpx;
+}
+
+.h2w__h2 {
+  border-bottom-style: solid;
+  border-bottom-width: 1rpx;
+  font-size: 40rpx;
+  padding-bottom: 8rpx;
+  margin-bottom: 18rpx;
+}
+
+.h2w__h3 {
+  font-size: 38rpx;
+  font-size: 34rpx;
+  padding-bottom: 6rpx;
+  margin-bottom: 12rpx;
+}
+
+.h2w__h4 {
+  font-size: 36rpx;
+  padding-bottom: 4rpx;
+  margin-bottom: 12rpx;
+}
+
+.h2w__h5 {
+  font-size: 34rpx;
+  padding-bottom: 2rpx;
+  margin-bottom: 12rpx;
+}
+
+.h2w__h6 {
+  margin-bottom: 12rpx;
+}
+
+/**组件父级容器**/
+.h2w__textParent,
+.h2w__viewParent {
+  display: inline;
+}
+.h2w__rich-textParent {
+  overflow-x: auto;
+}
+
+/**表格**/
+.h2w__tableParent {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.h2w__table {
+  width: 99.99%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  margin-bottom: 40rpx;
+  white-space: nowrap;
+}
+
+.h2w__table .h2w__tr:nth-child(2n) {
+  background-color: red;
+}
+
+.h2w__colgroup {
+  display: table-column-group;
+}
+
+.h2w__col {
+  display: table-column;
+}
+
+.h2w__thead {
+  display: table-header-group;
+}
+
+.h2w__tbody {
+  display: table-row-group;
+}
+
+.h2w__tfoot {
+  display: table-footer-group;
+}
+
+.h2w__tr {
+  display: table-row;
+}
+
+.h2w__th,
+.h2w__td {
+  padding: 8rpx 16rpx;
+  font-size: 28rpx;
+  border-width: 1rpx;
+  border-style: solid;
+  display: table-cell;
+}
+
+.h2w__th {
+  font-weight: bold;
+}
+
+/**代码块**/
+.h2w__pre {
+  /*white-space:nowrap;*/
+  padding: 10rpx 14rpx 10rpx 10rpx;
+  font-size: 28rpx;
+  word-break: normal;
+  border-width: 1rpx;
+  border-style: solid;
+  margin-bottom: 40rpx;
+  white-space: nowrap;
+  overflow-x: auto;
+  tab-size: 4;
+}
+.h2w__pre .h2w__p {
+  margin: 0;
+}
+
+.h2w__pre .h2w__code {
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+
+.h2w__pre,
+.h2w__code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace,
+    'STHeitiTC-Light', 'Microsoft YaHei Light', -apple-system, system-ui, BlinkMacSystemFont;
+}
+
+.h2w__code {
+  padding: 4rpx 8rpx;
+  margin: 0 4rpx;
+  border-width: 1rpx;
+  border-style: solid;
+  border-radius: 8rpx;
+  font-size: 80%;
+  overflow-x: auto;
+}
+
+.h2w__pre .h2w__span,
+.h2w__pre .h2w__a,
+.h2w__pre .h2w__span,
+.h2w__pre .h2w__b,
+.h2w__pre .h2w__strong,
+.h2w__pre .h2w__i,
+.h2w__pre .h2w__em {
+  display: inline;
+}
+
+.h2w__pre {
+  white-space: pre;
+  display: block;
+}
+
+.h2w__pre .h2w__code {
+  white-space: nowrap;
+  /* width: 9999px; */
+  display: block;
+  font-size: 80%;
+}
+
+/**列表**/
+.h2w__ul,
+.h2w__ol {
+  margin-bottom: 40rpx;
+  padding-left: 1rem;
+}
+
+.h2w__ul .h2w__ol,
+.h2w__ol .h2w__ul {
+  margin-bottom: 0;
+}
+
+.h2w__li {
+  display: list-item;
+}
+
+/**todo**/
+.h2w__todogroup {
+  margin-bottom: 40rpx;
+}
+
+.h2w__todogroup .h2w__todogroup {
+  padding-left: 1.6rem;
+}
+
+/**一级ol样式**/
+.h2w__ol {
+  list-style-type: decimal;
+}
+
+/**二级ol样式**/
+.h2w__ul .h2w__ol,
+.h2w__ol .h2w__ol {
+  list-style-type: lower-roman;
+}
+
+/**三级ol样式**/
+.h2w__ul .h2w__ul .h2w__ol,
+.h2w__ul .h2w__ol .h2w__ol,
+.h2w__ol .h2w__ul .h2w__ol,
+.h2w__ol .h2w__ol .h2w__ol {
+  list-style-type: lower-alpha;
+}
+
+/**一级ul样式**/
+.h2w__ul {
+  list-style-type: disc;
+}
+
+/**二级ul样式**/
+.h2w__ul .h2w__ul,
+.h2w__ol .h2w__ul {
+  list-style-type: circle;
+}
+
+/**三级样式**/
+.h2w__ol .h2w__ol .h2w__ul,
+.h2w__ol .h2w__ul .h2w__ul,
+.h2w__ul .h2w__ol .h2w__ul,
+.h2w__ul .h2w__ul .h2w__ul {
+  list-style-type: square;
+}
+
+/**块元素**/
+.h2w__p {
+  margin: 20rpx 0 20rpx 0;
+}
+
+.h2w__blockquote {
+  border-left-width: 8rpx;
+  border-left-style: solid;
+  padding: 0 20rpx;
+}
+
+/**内连元素**/
+.h2w__a,
+.h2w__span,
+.h2w__s,
+.h2w__b,
+.h2w__strong,
+.h2w__i,
+.h2w__em {
+  display: inline;
+}
+
+.h2w__b,
+.h2w__strong {
+  font-weight: bold;
+}
+
+.h2w__i,
+.h2w__em {
+  font-style: italic;
+}
+
+/**文本删除线**/
+.h2w__s,
+.h2w__strike,
+.h2w__del {
+  text-decoration: line-through;
+}
+
+/**文本下划线**/
+.h2w__ins,
+.h2w__u {
+  text-decoration: underline;
+  text-decoration: none;
+}
+
+/**链接**/
+.h2w__a {
+  margin: 0 4rpx;
+  /* border-bottom-width: 1rpx; */
+  /* border-bottom-style: solid; */
+  line-height: 1;
+  /* background-color: #f5f4ef; */
+  font-size: 14px;
+  /* padding: 4rpx 8rpx; */
+  /* border-radius: 50%;
+  text-decoration: none;
+  width: 32rpx;
+  height: 32rpx;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -2rpx; */
+}
+
+.h2w__hr {
+  height: 8rpx;
+  margin: 40rpx 0;
+}
+
+/**荧光标记**/
+.h2w__mark {
+  border-radius: 4rpx;
+}
+
+/**上标、下标**/
+.h2w__sup,
+.h2w__sub {
+  font-size: 75%;
+  position: relative;
+}
+
+.h2w__sup {
+  top: -0.5em;
+}
+
+.h2w__sub {
+  bottom: -0.25em;
+}
+
+/**emoji表情**/
+.h2w__g-emoji {
+  margin: 0 0.1em;
+  font-family: 'Apple Color Emoji', 'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+/**内置元素**/
+/* image,
+video {
+  max-width: 100%;
+}
+
+video {
+  width: 100%;
+  margin: 10rpx auto;
+}
+
+image {
+  height: auto;
+  vertical-align: middle;
+}
+
+video {
+  height: 220px;
+  font-size: 0;
+} */
+
+.h2w__latex--line {
+  margin: 4rpx 8rpx;
+  vertical-align: middle;
+}
+.h2w__latex--block {
+  display: block;
+  margin: 1em auto;
+}
+
+.h2w__yuml {
+  display: block;
+}
+
+.h2w__yumlBox {
+  width: 100%;
+  overflow-x: auto;
+}
+.h2w__yumlView {
+  margin: 0 auto;
+  padding-bottom: 40rpx;
+}
+
+/**代码行号**/
+.h2w__lineNum {
+  text-align: right;
+  float: left;
+  padding: 0;
+  margin: 0 1em 0 0;
+}
+.h2w__lineNumLine {
+  list-style: none;
+}
+
+/* typography - 移动端优化版本 */
+/*正文样式*/
+.h2w {
+  font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif,
+    WenQuanYi Micro Hei, sans-serif;
+  font-weight: 400;
+  font-size: 32rpx; /* 保持原始大小32rpx */
+  line-height: 1.65; /* 从1.8减小到1.65 */
+  word-wrap: break-word;
+  word-break: normal;
+  text-align: justify;
+}
+
+.h2w__main {
+  margin: 0 24rpx 24rpx 24rpx; /* 从28px减小到24rpx */
+  padding-top: 24rpx; /* 从28px减小到24rpx */
+}
+
+/**标题**/
+.h2w__h1,
+.h2w__h2,
+.h2w__h3,
+.h2w__h4,
+.h2w__h5,
+.h2w__h6 {
+  font-weight: 700;
+  margin-top: 1.2em; /* 从2.8em大幅减小到1.2em */
+  margin-bottom: 0.6em; /* 从1.4em减小到0.6em */
+  line-height: 1.3; /* 保持1.3 */
+}
+
+/**设置行间元素样式**/
+.h2w__span,
+.h2w__b,
+.h2w__strong,
+.h2w__i,
+.h2w__em,
+.h2w__code,
+.h2w__sub,
+.h2w__sup,
+.h2w__g-emoji,
+.h2w__mark,
+.h2w__u,
+.h2w__navigatorParent,
+.h2w__ins {
+  display: inline;
+}
+
+.h2w__h1 {
+  border-bottom-style: double;
+  border-bottom-width: 3rpx;
+  font-size: 1.25em; /* 调整为1.25em (40rpx) */
+  padding-bottom: 4rpx;
+  margin-bottom: 10rpx;
+}
+
+.h2w__h2 {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  font-size: 1.2em; /* 调整为1.2em (38.4rpx) */
+  padding-bottom: 3rpx;
+  margin-bottom: 8rpx;
+}
+
+.h2w__h3 {
+  font-size: 1.15em; /* 调整为1.15em (36.8rpx) */
+  padding-bottom: 3rpx;
+  margin-bottom: 8rpx;
+}
+
+.h2w__h4 {
+  font-size: 1.15em; /* 从1.6em减小到1.15em (约37rpx) */
+  padding-bottom: 2rpx;
+  margin-bottom: 6rpx;
+}
+
+.h2w__h5 {
+  font-size: 1.1em; /* 从1.4em减小到1.1em (约35rpx) */
+  padding-bottom: 2rpx;
+  margin-bottom: 6rpx;
+}
+
+.h2w__h6 {
+  font-size: 1.05em; /* 保持1.05em (约34rpx) */
+  margin-bottom: 6rpx;
+}
+
+/**组件父级容器**/
+.h2w__textParent,
+.h2w__viewParent {
+  display: inline;
+}
+.h2w__rich-textParent {
+  overflow-x: auto;
+}
+
+/**表格**/
+.h2w__tableParent {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 1.5em; /* 从2em减小到1.5em */
+  margin-bottom: 1.5em; /* 从2em减小到1.5em */
+}
+
+.h2w__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  margin-bottom: 20rpx; /* 从28px减小到20rpx */
+  white-space: nowrap;
+}
+
+.h2w__table .h2w__tr:nth-child(2n) {
+  background-color: red;
+}
+
+.h2w__colgroup {
+  display: table-column-group;
+}
+
+.h2w__col {
+  display: table-column;
+}
+
+.h2w__thead {
+  display: table-header-group;
+}
+
+.h2w__tbody {
+  display: table-row-group;
+}
+
+.h2w__tfoot {
+  display: table-footer-group;
+}
+
+.h2w__tr {
+  display: table-row;
+}
+
+.h2w__th,
+.h2w__td {
+  padding: 6rpx 12rpx; /* 从8px 16px减小到6rpx 12rpx */
+  font-size: 26rpx; /* 从18px减小到26rpx */
+  border-width: 1px;
+  border-style: solid;
+  display: table-cell;
+}
+
+.h2w__th {
+  font-weight: 600;
+}
+
+/**代码块**/
+.h2w__pre {
+  padding: 10rpx 12rpx 10rpx 10rpx; /* 从12px 16px 12px 12px减小 */
+  font-size: 26rpx; /* 从18px减小到26rpx */
+  word-break: normal;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8rpx; /* 从10px减小到8rpx */
+  margin-top: 1.5em; /* 从2em减小到1.5em */
+  margin-bottom: 20rpx; /* 从28px减小到20rpx */
+  white-space: pre;
+  overflow-x: auto;
+  tab-size: 4;
+}
+.h2w__pre .h2w__p {
+  margin: 0;
+}
+
+.h2w__pre .h2w__code {
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+
+.h2w__pre,
+.h2w__code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace,
+    'STHeitiTC-Light', 'Microsoft YaHei Light', -apple-system, system-ui, BlinkMacSystemFont;
+}
+
+.h2w__code {
+  padding: 2rpx 4rpx; /* 从4px 6px减小到2rpx 4rpx */
+  margin: 0 2rpx; /* 从4px减小到2rpx */
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4rpx; /* 从6px减小到4rpx */
+  font-size: 85%; /* 从90%减小到85% */
+  overflow-x: auto;
+}
+
+.h2w__pre .h2w__span,
+.h2w__pre .h2w__a,
+.h2w__pre .h2w__span,
+.h2w__pre .h2w__b,
+.h2w__pre .h2w__strong,
+.h2w__pre .h2w__i,
+.h2w__pre .h2w__em {
+  display: inline;
+}
+
+.h2w__pre {
+  white-space: pre;
+  display: block;
+}
+
+.h2w__pre .h2w__code {
+  white-space: pre;
+  display: block;
+  font-size: 85%; /* 从90%减小到85% */
+}
+
+/**列表**/
+.h2w__ul,
+.h2w__ol {
+  margin-top: 1em; /* 从1.4em减小到1em */
+  margin-bottom: 20rpx; /* 从28px减小到20rpx */
+  padding-left: 1.5em; /* 从2em减小到1.5em */
+}
+
+.h2w__ul .h2w__ol,
+.h2w__ol .h2w__ul {
+  margin-bottom: 0;
+}
+
+.h2w__li {
+  display: list-item;
+  margin-top: 0.3em; /* 从0.4em减小到0.3em */
+  margin-bottom: 0.3em; /* 从0.4em减小到0.3em */
+}
+
+/**todo**/
+.h2w__todogroup {
+  margin-bottom: 20rpx; /* 从28px减小到20rpx */
+}
+
+.h2w__todogroup .h2w__todogroup {
+  padding-left: 1.5em; /* 从2em减小到1.5em */
+}
+
+/**一级ol样式**/
+.h2w__ol {
+  list-style-type: decimal;
+}
+
+/**二级ol样式**/
+.h2w__ul .h2w__ol,
+.h2w__ol .h2w__ol {
+  list-style-type: lower-roman;
+}
+
+/**三级ol样式**/
+.h2w__ul .h2w__ul .h2w__ol,
+.h2w__ul .h2w__ol .h2w__ol,
+.h2w__ol .h2w__ul .h2w__ol,
+.h2w__ol .h2w__ol .h2w__ol {
+  list-style-type: lower-alpha;
+}
+
+/**一级ul样式**/
+.h2w__ul {
+  list-style-type: disc;
+}
+
+/**二级ul样式**/
+.h2w__ul .h2w__ul,
+.h2w__ol .h2w__ul {
+  list-style-type: circle;
+}
+
+/**三级样式**/
+.h2w__ol .h2w__ol .h2w__ul,
+.h2w__ol .h2w__ul .h2w__ul,
+.h2w__ul .h2w__ol .h2w__ul,
+.h2w__ul .h2w__ul .h2w__ul {
+  list-style-type: square;
+}
+
+/**块元素**/
+.h2w__p {
+  margin: 16rpx 0 24rpx 0; /* 保持上16rpx下24rpx的设置 */
+  line-height: 1.65; /* 与全局line-height保持一致 */
+}
+
+.h2w__blockquote {
+  border-left-width: 4rpx; /* 从6px减小到4rpx */
+  border-left-style: solid;
+  padding: 0 12rpx; /* 从0 16px减小到0 12rpx */
+  margin: 1.5em 0; /* 从2em 0减小到1.5em 0 */
+  color: #666;
+}
+
+/**内连元素**/
+.h2w__a,
+.h2w__span,
+.h2w__s,
+.h2w__b,
+.h2w__strong,
+.h2w__i,
+.h2w__em {
+  display: inline;
+}
+
+.h2w__b,
+.h2w__strong {
+  font-weight: 700;
+}
+
+.h2w__i,
+.h2w__em {
+  font-style: italic;
+}
+
+/**文本删除线**/
+.h2w__s,
+.h2w__strike,
+.h2w__del {
+  text-decoration: line-through;
+}
+
+/**文本下划线**/
+.h2w__ins,
+.h2w__u {
+  text-decoration: underline;
+}
+
+/**链接**/
+.h2w__a {
+  margin: 0 2rpx; /* 从4px减小到2rpx */
+  font-size: 26rpx; /* 从18px减小到26rpx */
+  color: #3182ce;
+  text-decoration: underline;
+}
+
+.h2w__hr {
+  height: 4rpx; /* 从6px减小到4rpx */
+  margin: 24rpx 0; /* 从32px 0减小到24rpx 0 */
+  background-color: #eee;
+  border: none;
+}
+
+/**荧光标记**/
+.h2w__mark {
+  border-radius: 3rpx; /* 从4px减小到3rpx */
+  padding: 2rpx 4rpx; /* 从4px 6px减小到2rpx 4rpx */
+}
+
+/**上标、下标**/
+.h2w__sup,
+.h2w__sub {
+  font-size: 75%;
+  position: relative;
+}
+
+.h2w__sup {
+  top: -0.5em;
+}
+
+.h2w__sub {
+  bottom: -0.25em;
+}
+
+/**emoji表情**/
+.h2w__g-emoji {
+  margin: 0 0.1em;
+  font-family: 'Apple Color Emoji', 'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+/**代码行号**/
+.h2w__lineNum {
+  text-align: right;
+  float: left;
+  padding: 0;
+  margin: 0 0.6em 0 0; /* 从0.8em减小到0.6em */
+  color: #ccc;
+  font-size: 24rpx; /* 从16px减小到24rpx */
+}
+.h2w__lineNumLine {
+  list-style: none;
+}
+
+.tooltip {
+  position: fixed;
+  background: #fff;
+  border-radius: 4rpx; /* 从6px减小到4rpx */
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1); /* 从0 3px 10px减小 */
+  padding: 10rpx; /* 从12px减小到10rpx */
+  z-index: 1000;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+}
+
+.tooltip-show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.tooltip-content {
+  max-height: 360rpx; /* 从420px减小到360rpx */
+  overflow-y: auto;
+}
+
+.tooltip-item {
+  padding: 8rpx 0; /* 从10px 0减小到8rpx 0 */
+  border-bottom: 1px solid #eee;
+}
+
+.tooltip-item:last-child {
+  border-bottom: none;
+}
+
+.tooltip-item-title {
+  font-size: 26rpx; /* 从18px减小到26rpx */
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 4rpx; /* 从6px减小到4rpx */
+  word-break: break-all;
+}
+
+.tooltip-copy {
+  display: inline-block;
+  font-size: 24rpx; /* 从16px减小到24rpx */
+  color: #007aff;
+  padding: 2rpx 8rpx; /* 从4px 10px减小到2rpx 8rpx */
+  border: 1px solid #007aff;
+  border-radius: 3rpx; /* 从4px减小到3rpx */
+  margin-top: 4rpx; /* 从6px减小到4rpx */
+}
+
+.tooltip-copy:active {
+  background: rgba(0, 122, 255, 0.1);
+}
+
+/*正文样式*/
+.h2w-light {
+  color: #374151;
+  background-color: white;
+}
+
+/**标题**/
+.h2w-light .h2w__h1,
+.h2w-light .h2w__h2 {
+  border-color: #e5e7eb;
+  color: #111827;
+}
+
+/**表格**/
+.h2w-light .h2w__thead .h2w__tr {
+  background-color: #f9fafb;
+}
+.h2w-light .h2w__table .h2w__tr:nth-child(2n) {
+  background-color: #f3f4f6;
+}
+.h2w-light .h2w__th,
+.h2w-light .h2w__td {
+  border-color: #e5e7eb;
+}
+
+/**代码块**/
+.h2w-light .h2w__pre {
+  background-color: #f3f4f6;
+  border-color: #e5e7eb;
+}
+
+.h2w-light .h2w__code {
+  background-color: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #ef4444;
+}
+
+/**块元素**/
+.h2w-light .h2w__blockquote {
+  border-left-color: #e5e7eb;
+  color: #6b7280;
+}
+
+/**内连元素**/
+.h2w-light .h2w__a {
+  color: #3b82f6;
+  border-color: #93c5fd;
+}
+
+.h2w-light .h2w__hr {
+  background-color: #e5e7eb;
+}
+
+.h2w-light .h2w__mark {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.h2w-light .h2w__lineNum {
+  color: #9ca3af;
+}

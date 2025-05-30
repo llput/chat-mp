@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: 微信小程序代码结构和组织规则
+globs: **/*.js
+---
+- 逻辑分层：按照导入 -> 常量 -> Page/Component定义 -> 数据 -> 生命周期函数 -> 事件处理函数顺序组织代码
+- 页面文件结构：遵循统一顺序（data -> onLoad -> onShow -> ...其他生命周期）
+- 组件文件结构：遵循统一顺序（properties -> options -> data -> lifetimes -> methods）
+- 导入顺序：第三方库 -> 工具函数 -> 配置 -> 服务 -> 组件
+- 组件样式隔离：使用styleIsolation确保组件样式不相互影响
+- 使用slot增强组件可定制性：复杂组件应提供插槽以增强灵活性
+- 避免页面和组件的过度耦合，推荐使用事件通信
+- 每个文件应只负责单一功能或组件，避免过大的文件

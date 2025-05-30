@@ -1,0 +1,21 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: 微信API文档规范和使用指南
+globs: **/*.js
+---
+- 文档优先原则：在使用微信API前，先查阅weixin-doc文件夹中的相关文档
+- API文档目录结构：按功能分类组织，如api/ai/face、base、network、payment等
+- API文档命名规则：使用"wx.方法名.md"格式，例如wx.login.md，wx.request.md
+- 查找路径：根据API的功能类别定位文档，例如人脸识别API位于weixin-doc/api/ai/face/目录、例如地理位置location位于weixin-doc/api/location/目录
+- API文档内容结构：包含功能描述、参数说明、返回值、错误码和使用示例等
+- 提供基于回调和Promise的调用示例
+- 详细说明API的错误处理机制和常见问题
+- 记录不同基础库版本的兼容性信息
+- 使用API前的检查清单：查阅文档、完整错误处理、Promise封装、文档引用注释、版本兼容性
+- 如使用新API，创建或更新对应文档，并放在正确的分类目录中
+- 定期审查和更新文档，确保与最新API保持一致
+- 在代码注释中引用文档：// 详细文档请参考: ./weixin-doc/[分类]/[子分类]/wx.[方法名].md

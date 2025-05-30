@@ -1,0 +1,141 @@
+.ref-tooltip-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  z-index: 9999;
+}
+
+.ref-navigator-wrapper {
+  position: relative;
+  display: inline-block;
+  /* padding: 0 8rpx; */
+  /* background: #e8e5d8; */
+}
+
+.ref-tooltip {
+  position: absolute;
+  visibility: hidden;
+  background-color: #ffffff;
+  color: #2A313D;
+  padding: 32rpx 24rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  opacity: 0;
+  pointer-events: auto;
+  width: 85vw;
+  max-width: 85vw;
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  box-shadow: 0 4rpx 16rpx 2rpx #0000000a, 0 8rpx 16rpx 2rpx #0000000f;
+  border-radius: 24rpx;
+  /* border: 3rpx solid #ebedf0; */
+  /* box-shadow: 0 0 0 3rpx #ebedf0; */
+}
+
+.ref-tooltip-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.ref-tooltip-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.ref-tooltip-item-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+}
+
+.ref-tooltip-item-index {
+  width: 36rpx;
+  text-align: right;
+  flex-shrink: 0;
+  color: #3462ed;
+  font-size: 28rpx;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36rpx;
+}
+
+.ref-tooltip-item-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: 36rpx;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  /* color: #1aad16; */
+  text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.ref-tooltip-copy {
+  flex-shrink: 0;
+  padding: 8rpx 16rpx;
+  background: rgba(255, 255, 255, 0.2);
+  background: #f7f8fa;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  cursor: pointer;
+  white-space: nowrap;
+  /* 确保复制按钮不换行 */
+}
+
+.ref-tooltip-show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.link-text {
+  display: inline-block;
+  /* 确保元素尺寸计算准确 */
+  position: relative;
+  /* 为tooltip提供正确的定位上下文 */
+}
+
+.inline-wrapper {
+  display: inline;
+  position: relative;
+}
+
+.inline-nav {
+  display: inline;
+}
+
+/* 修改闪烁光标样式 */
+.blinking-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 24rpx;
+  background-color: #46d2a0;
+  vertical-align: baseline;
+  /* 改为 baseline 使光标对齐文本 */
+  animation: blink 2s infinite;
+  /* 添加闪烁动画 */
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,24 @@
+.text-generate-container {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  margin-top: 8rpx;
+}
+
+.text-generate-content {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 32rpx;
+  line-height: 1.4;
+  letter-spacing: 2rpx;
+}
+
+.text-generate-word {
+  opacity: 0;
+  margin-right: 8rpx;
+  position: relative;
+}
+
+.text-generate-word.animated {
+  opacity: 1;
+}

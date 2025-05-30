@@ -1,0 +1,36 @@
+{
+  "globals": {
+    "wx": "readonly",
+    "__DEV__": "readonly"
+  },
+  "extends": ["@tencent/eslint-config-tencent", "eslint:recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "off",
+    "arrow-parens": "off",
+    "array-callback-return": "off",
+    "arrow-body-style": "off",
+    "no-confusing-arrow": "off",
+    "no-restricted-syntax": "off",
+    "no-param-reassign": "off",
+    "prefer-arrow-callback": "off",
+    "function-paren-newline": "off",
+    "implicit-arrow-linebreak": "off",
+    "newline-per-chained-call": "off",
+    "no-nested-ternary": "off",
+    "object-shorthand": "off"
+  },
+  "ignorePatterns": [
+    "*.svg",
+    "*.png",
+    "*.jpg",
+    "*.woff",
+    "*.less",
+    "*.css",
+    "*.json",
+    "public/**",
+    "env.d.ts",
+    "miniprogram_npm/**",
+    "towxml/**"
+  ]
+}
