@@ -4,15 +4,93 @@
 @import '/towxml/style/main.wxss';
 @import '/towxml/style/theme/light.wxss';
 
+.p4 {
+  padding: 4px;
+}
+
+.p8 {
+  padding: 8px;
+}
+
+.p12 {
+  padding: 12px;
+}
+
+.p16 {
+  padding: 16px;
+}
+
+.p20 {
+  padding: 20px;
+}
+
+.p24 {
+  padding: 24px;
+}
+
+.p32 {
+  padding: 32px;
+}
+
+.m4 {
+  margin: 4px;
+}
+
+.m8 {
+  margin: 8px;
+}
+
+.m12 {
+  margin: 12px;
+}
+
+.m16 {
+  margin: 16px;
+}
+
+.m20 {
+  margin: 20px;
+}
+
+.m24 {
+  margin: 24px;
+}
+
+.m32 {
+  margin: 32px;
+}
+
 .page-container {
   height: 100vh;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: #faf9f5;
+  padding-top: 84px;
 }
 
 .content {
   flex: 1;
-  border-top: 2px solid red;
+  overflow-y: auto;
+}
+
+.chat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-item-question {
+  display: flex;
+  flex-direction: column;
+  background-color: #f0eee6;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.chat-item-answer {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 20px;
 }

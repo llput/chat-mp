@@ -6,11 +6,19 @@
 </custom-nav>
 
 <view class="page-container">
-  <view class="content" style="padding: 88px 20px 20px 20px;">
+  <view class="content p20">
     <scroll-view scroll-y>
-      <view class="content-item">
-        <view class="content-item-title">
-          <text>标题</text>
+      <view class="chat-item" wx:for="{{ 10 }}" wx:key="index">
+        <view class="chat-item-question">
+          <view class="chat-item-question-text">
+            在微信小程序的分享对话页面（loadShareDialogs功能）中，当调用分享对话接口时如果遇到登录态失效的情况，应该如何实现自动重定向到首页？请基于现有代码提供具体的实现方案。
+          </view>
+        </view>
+        <view class="chat-item-answer">
+          <view class="chat-item-answer-text">
+            改写后的清晰表达：
+            "在微信小程序的分享对话页面（loadShareDialogs功能）中，当调用分享对话接口时如果遇到登录态失效的情况，应该如何实现自动重定向到首页？请基于现有代码提供具体的实现方案。"
+          </view>
         </view>
       </view>
     </scroll-view>
