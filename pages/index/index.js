@@ -1,8 +1,7 @@
 // pages/index/index.js
-import { StreamProcessor, APIError } from '../../utils/stream/stream';
+import { LineDecoder, _iterSSEMessages } from '../../utils/stream/stream';
+import { TextDecoder } from '../../utils/stream/text-encoding';
 import { createErrorObject } from '../../utils/stream/errors';
-import reportEvent from '../../utils/report-event';
-import { EVENT_TYPES } from '../../utils/config';
 
 const app = getApp();
 
@@ -12,12 +11,15 @@ Page({
     inputText: '',
     isLoading: false,
     currentMessageId: null,
-    currentRequestId: null,
+    currentRequestTask: null,
+    lineDecoder: null, // 添加LineDecoder实例
   },
 
   onLoad() {
     console.log('聊天页面加载');
     this.initChat();
+    // 初始化LineDecoder
+    this.data.lineDecoder = new LineDecoder();
   },
 
   // 初始化聊天
@@ -73,109 +75,280 @@ Page({
       currentMessageId: assistantMessage.id,
     });
 
-    // 上报发送消息事件
-    reportEvent(EVENT_TYPES.USER_SEND_MESSAGE, {
-      message_length: inputText.length,
-      timestamp: Date.now(),
-    });
-
     try {
-      await this.callDeepSeekAPI(inputText.trim(), assistantMessage.id);
+      await this.callStreamingAPI(inputText.trim(), assistantMessage.id);
     } catch (error) {
       console.error('发送消息失败:', error);
       this.handleChatError(error, assistantMessage.id);
     }
   },
 
-  // 调用DeepSeek API
-  async callDeepSeekAPI(userInput, messageId) {
+  // 调用流式API
+  async callStreamingAPI(userInput, messageId) {
     const messages = this.buildMessagesHistory(userInput);
-    const requestId = `req_${Date.now()}`;
-
-    this.setData({
-      currentRequestId: requestId,
-    });
 
     try {
-      // 使用wx.request发起请求
-      const requestTask = wx.request({
+      // 创建流式请求配置
+      const requestConfig = {
         url: 'https://api.deepseek.com/chat/completions',
         method: 'POST',
         header: {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer -', // 替换为实际的API Key
+          Authorization: 'Bearer sk-af584c7d0bf642df8d6c466734c0875f',
         },
         data: {
           model: 'deepseek-chat',
           messages: messages,
-          stream: true, // 启用流式响应
+          stream: true,
           max_tokens: 2000,
           temperature: 0.7,
         },
-        enableChunked: true, // 启用分块传输
-        responseType: 'text',
-        success: res => {
-          if (res.statusCode === 200) {
-            this.handleStreamResponse(res.data, messageId, requestId);
-          } else {
-            throw createErrorObject(res.statusCode, null, { response: res });
-          }
-        },
-        fail: error => {
-          throw createErrorObject('NETWORK_ERROR', error);
-        },
-      });
+        enableChunked: true,
+        timeout: 60000,
+      };
 
-      // 保存请求任务，用于取消
-      this.currentRequestTask = requestTask;
+      // 发起请求并处理流式响应
+      await this.createStreamingRequest(requestConfig, messageId);
     } catch (error) {
-      console.error('API调用失败:', error);
+      if (error.errMsg === 'request:fail abort') {
+        console.log('请求被用户取消');
+        return;
+      }
       throw error;
     }
   },
 
-  // 处理流式响应
-  handleStreamResponse(responseData, messageId, requestId) {
-    try {
-      // 创建流处理器
-      const streamProcessor = new StreamProcessor();
-
-      // 模拟流式数据处理
-      const lines = responseData.split('\n');
+  // 创建流式请求
+  createStreamingRequest(config, messageId) {
+    return new Promise((resolve, reject) => {
+      // 使用持久的LineDecoder实例
+      const lineDecoder = this.data.lineDecoder;
       let accumulatedContent = '';
 
-      lines.forEach(line => {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-
-          if (data === '[DONE]') {
-            this.handleStreamComplete(messageId, accumulatedContent);
+      // 发起请求
+      const requestTask = wx.request({
+        ...config,
+        success: res => {
+          console.log('请求完成，状态码:', res.statusCode);
+          if (res.statusCode !== 200) {
+            reject(createErrorObject(res.statusCode, null, { response: res }));
             return;
           }
 
-          try {
-            const parsed = JSON.parse(data);
-            const content = parsed.choices?.[0]?.delta?.content || '';
+          // 处理缓冲区中的剩余数据
+          const remainingLines = lineDecoder.flush();
+          remainingLines.forEach(line => {
+            if (line.trim()) {
+              const sseMessage = this.parseSSELine(line);
+              if (sseMessage) {
+                const content = sseMessage.choices?.[0]?.delta?.content;
+                if (content) {
+                  accumulatedContent += content;
+                  this.updateMessageContent(messageId, accumulatedContent);
+                }
+              }
+            }
+          });
 
+          resolve();
+        },
+        fail: error => {
+          console.error('请求失败:', error);
+          if (error.errMsg === 'request:fail abort') {
+            reject({ errMsg: 'request:fail abort' });
+          } else {
+            reject(createErrorObject('NETWORK_ERROR', error));
+          }
+        },
+      });
+
+      // 保存请求任务
+      this.setData({
+        currentRequestTask: requestTask,
+      });
+
+      // 监听分块数据接收
+      requestTask.onChunkReceived(response => {
+        try {
+          console.log('接收到分块数据，大小:', response.data.byteLength);
+
+          // 确保数据是 ArrayBuffer，然后转换为 Uint8Array
+          const uint8Array = new Uint8Array(response.data);
+
+          // 使用 utils/stream/stream.js 中的 LineDecoder 解析行
+          const lines = lineDecoder.decode(uint8Array);
+
+          console.log('解析出的行数:', lines.length);
+
+          // 处理解析出的每一行
+          lines.forEach(line => {
+            console.log('处理行:', line);
+            const sseMessage = this.parseSSELine(line);
+            if (sseMessage) {
+              const content = sseMessage.choices?.[0]?.delta?.content;
+
+              if (content) {
+                accumulatedContent += content;
+                this.updateMessageContent(messageId, accumulatedContent);
+              }
+
+              // 检查是否完成
+              if (
+                sseMessage.choices?.[0]?.finish_reason ||
+                (sseMessage.data && sseMessage.data === '[DONE]')
+              ) {
+                this.handleStreamComplete(messageId, accumulatedContent);
+                resolve();
+                return;
+              }
+            }
+          });
+        } catch (error) {
+          console.error('处理分块数据失败:', error);
+          reject(error);
+        }
+      });
+
+      // 监听请求头接收
+      requestTask.onHeadersReceived?.(headers => {
+        console.log('接收到响应头:', headers);
+      });
+    });
+  },
+
+  // 解析SSE行数据 - 复用 utils/stream 的逻辑
+  parseSSELine(line) {
+    if (!line || line.trim() === '') {
+      return null;
+    }
+
+    // 处理注释行
+    if (line.startsWith(':')) {
+      return null;
+    }
+
+    // 处理数据行
+    if (line.startsWith('data: ')) {
+      const data = line.slice(6);
+
+      if (data === '[DONE]') {
+        return { data: '[DONE]' };
+      }
+
+      try {
+        const parsed = JSON.parse(data);
+
+        // 检查是否有错误
+        if (parsed.error) {
+          throw createErrorObject(
+            'BUSINESS_ERROR',
+            new Error(parsed.error.message || JSON.stringify(parsed.error)),
+          );
+        }
+
+        if (parsed.err) {
+          throw createErrorObject(
+            'BUSINESS_ERROR',
+            new Error(parsed.err.message || JSON.stringify(parsed.err)),
+          );
+        }
+
+        return parsed;
+      } catch (parseError) {
+        console.warn('解析SSE数据失败:', parseError, data);
+        return null;
+      }
+    }
+
+    return null;
+  },
+
+  // 创建模拟的ReadableStream用于复用utils/stream逻辑
+  createMockReadableStream(chunks) {
+    let chunkIndex = 0;
+
+    return {
+      getReader() {
+        return {
+          read() {
+            return new Promise(resolve => {
+              if (chunkIndex >= chunks.length) {
+                resolve({ done: true, value: undefined });
+              } else {
+                const chunk = chunks[chunkIndex++];
+                resolve({ done: false, value: chunk });
+              }
+            });
+          },
+          releaseLock() {
+            // 释放锁的模拟实现
+          },
+          cancel() {
+            return Promise.resolve();
+          },
+        };
+      },
+    };
+  },
+
+  // 使用Stream类处理数据（可选的高级用法）
+  async processWithStreamClass(chunks, messageId) {
+    try {
+      // 创建模拟的Response对象
+      const mockResponse = {
+        body: this.createMockReadableStream(chunks),
+        ok: true,
+        status: 200,
+      };
+
+      // 创建模拟的控制器
+      const mockController = {
+        abort() {
+          console.log('Stream aborted');
+        },
+      };
+
+      // 使用 utils/stream 中的逻辑处理SSE消息
+      let accumulatedContent = '';
+
+      for await (const sse of _iterSSEMessages(mockResponse, mockController)) {
+        if (sse.data && sse.data.startsWith('[DONE]')) {
+          break;
+        }
+
+        if (sse.event === null) {
+          let data;
+          try {
+            data = JSON.parse(sse.data);
+          } catch (e) {
+            console.error('无法解析消息为JSON:', sse.data);
+            continue;
+          }
+
+          if (data) {
+            if (data.error) {
+              throw createErrorObject(
+                'BUSINESS_ERROR',
+                new Error(data.error.message || JSON.stringify(data.error)),
+              );
+            }
+
+            const content = data.choices?.[0]?.delta?.content;
             if (content) {
               accumulatedContent += content;
               this.updateMessageContent(messageId, accumulatedContent);
             }
-          } catch (parseError) {
-            console.warn('解析SSE数据失败:', parseError, data);
+
+            if (data.choices?.[0]?.finish_reason) {
+              this.handleStreamComplete(messageId, accumulatedContent);
+              break;
+            }
           }
         }
-      });
-
-      // 如果没有检测到流结束标记，手动完成
-      if (!responseData.includes('[DONE]')) {
-        setTimeout(() => {
-          this.handleStreamComplete(messageId, accumulatedContent);
-        }, 100);
       }
     } catch (error) {
-      console.error('处理流式响应失败:', error);
-      this.handleChatError(error, messageId);
+      console.error('Stream处理失败:', error);
+      throw error;
     }
   },
 
@@ -209,14 +382,10 @@ Page({
       messages,
       isLoading: false,
       currentMessageId: null,
-      currentRequestId: null,
+      currentRequestTask: null,
     });
 
-    // 上报生成完成事件
-    reportEvent(EVENT_TYPES.GENERATION_COMPLETE, {
-      content_length: finalContent.length,
-      timestamp: Date.now(),
-    });
+    console.log('流式响应完成，最终内容长度:', finalContent.length);
   },
 
   // 构建消息历史
@@ -229,7 +398,7 @@ Page({
     // 获取最近的对话历史（最多10轮）
     const recentMessages = this.data.messages
       .filter(msg => !msg.isStreaming)
-      .slice(-20) // 最多取最近20条消息（10轮对话）
+      .slice(-20)
       .map(msg => ({
         role: msg.role,
         content: msg.content,
@@ -267,7 +436,7 @@ Page({
       messages,
       isLoading: false,
       currentMessageId: null,
-      currentRequestId: null,
+      currentRequestTask: null,
     });
 
     // 显示错误提示
@@ -276,33 +445,26 @@ Page({
       icon: 'none',
       duration: 3000,
     });
-
-    // 上报错误事件
-    reportEvent(EVENT_TYPES.SEND_MESSAGE_ERROR, {
-      error_code: error.code || 'UNKNOWN',
-      error_message: errorMessage,
-      timestamp: Date.now(),
-    });
   },
 
   // 取消当前请求
   cancelCurrentRequest() {
-    if (this.currentRequestTask) {
-      this.currentRequestTask.abort();
-      this.currentRequestTask = null;
+    const { currentRequestTask } = this.data;
+
+    if (currentRequestTask) {
+      currentRequestTask.abort();
+      this.setData({
+        currentRequestTask: null,
+      });
     }
 
     if (this.data.currentMessageId) {
       this.handleChatError({ message: '用户取消了请求' }, this.data.currentMessageId);
     }
-
-    reportEvent(EVENT_TYPES.USER_CANCEL_GENERATION, {
-      timestamp: Date.now(),
-    });
   },
 
   // 重新生成回答
-  onRegenerateMessage(e) {
+  async onRegenerateMessage(e) {
     const messageId = e.currentTarget.dataset.messageId;
     const messageIndex = this.data.messages.findIndex(msg => msg.id == messageId);
 
@@ -311,10 +473,31 @@ Page({
       if (userMessage && userMessage.role === 'user') {
         // 移除当前的助手回复
         const newMessages = this.data.messages.slice(0, messageIndex);
-        this.setData({ messages: newMessages });
+        this.setData({
+          messages: newMessages,
+          isLoading: true,
+        });
+
+        // 创建新的助手消息
+        const newAssistantMessage = {
+          id: Date.now(),
+          role: 'assistant',
+          content: '',
+          timestamp: Date.now(),
+          isStreaming: true,
+        };
+
+        this.setData({
+          messages: [...newMessages, newAssistantMessage],
+          currentMessageId: newAssistantMessage.id,
+        });
 
         // 重新发送请求
-        this.callDeepSeekAPI(userMessage.content, Date.now());
+        try {
+          await this.callStreamingAPI(userMessage.content, newAssistantMessage.id);
+        } catch (error) {
+          this.handleChatError(error, newAssistantMessage.id);
+        }
       }
     }
   },
@@ -327,9 +510,6 @@ Page({
       success: res => {
         if (res.confirm) {
           this.initChat();
-          reportEvent(EVENT_TYPES.NEW_CHAT_CREATED, {
-            timestamp: Date.now(),
-          });
         }
       },
     });
@@ -347,11 +527,6 @@ Page({
           icon: 'success',
           duration: 2000,
         });
-
-        reportEvent(EVENT_TYPES.MESSAGE_COPY_SUCCESS, {
-          content_length: content.length,
-          timestamp: Date.now(),
-        });
       },
       fail: error => {
         wx.showToast({
@@ -359,31 +534,12 @@ Page({
           icon: 'none',
           duration: 2000,
         });
-
-        reportEvent(EVENT_TYPES.MESSAGE_COPY_FAILED, {
-          error: error.errMsg,
-          timestamp: Date.now(),
-        });
       },
     });
   },
 
-  // 自动滚动到底部
-  scrollToBottom() {
-    if (this.data.messages.length > 0) {
-      const lastMessage = this.data.messages[this.data.messages.length - 1];
-      this.setData({
-        scrollIntoView: `msg-${lastMessage.id}`,
-      });
-    }
-  },
-
   // 页面显示时滚动到底部
-  onShow() {
-    setTimeout(() => {
-      this.scrollToBottom();
-    }, 100);
-  },
+  onShow() {},
 
   // 页面卸载时清理
   onUnload() {

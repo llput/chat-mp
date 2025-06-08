@@ -72,8 +72,7 @@ export class LineDecoder {
     if (bytes == null) return '';
     if (typeof bytes === 'string') return bytes;
 
-    const g = typeof global !== 'undefined' ? global : self;
-
+    // 首先尝试使用原生 Buffer（Node.js 环境）
     if (typeof Buffer !== 'undefined') {
       if (bytes instanceof Buffer) {
         return bytes.toString();
@@ -86,7 +85,21 @@ export class LineDecoder {
       throw new Error(`非预期的非Uint8Array类型数据流(${bytes.constructor.name})，请报告此错误`);
     }
 
+    // 检查全局 TextDecoder（浏览器环境）
+    const g = typeof global !== 'undefined' ? global : self;
     if (typeof g.TextDecoder !== 'undefined') {
+      if (bytes instanceof Uint8Array || bytes instanceof ArrayBuffer) {
+        this.textDecoder ||= new g.TextDecoder('utf8');
+        return this.textDecoder.decode(bytes);
+      }
+
+      throw new Error(
+        `非预期的非Uint8Array/ArrayBuffer类型数据(${bytes.constructor.name})，请报告此错误`,
+      );
+    }
+
+    // 使用导入的 TextDecoder polyfill（小程序等环境）
+    if (TextDecoder) {
       if (bytes instanceof Uint8Array || bytes instanceof ArrayBuffer) {
         this.textDecoder ||= new TextDecoder('utf8');
         return this.textDecoder.decode(bytes);

@@ -1,9 +1,7 @@
 // app.js
 import AuthManager from './utils/auth-manager';
-import { showWeakNetworkTip } from './utils/network-debug-utils';
 import { promisifyAll } from 'miniprogram-api-promise';
 import { getBottomSafeAreaHeight } from './utils/native';
-import reportEvent from './utils/report-event';
 import { EVENT_TYPES } from './utils/config';
 const wxp = {};
 
