@@ -1,4 +1,6 @@
-/* 自适应布局方案 */
+/* 自定义导航栏组件样式 */
+
+/* 主容器 */
 .custom-nav {
   position: fixed;
   top: 0;
@@ -6,26 +8,44 @@
   right: 0;
   z-index: 1000;
   background-color: #faf9f5;
+  color: #333;
 }
 
+/* 导航栏内容区域 */
 .nav-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #faf9f5;
+  background: inherit;
+  position: relative;
+  color: #333;
 }
 
-.nav-left,
+/* 左侧按钮区域 */
+.nav-left {
+  position: absolute;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24rpx;
+  height: 100%;
+  z-index: 2;
+}
+
+/* 右侧区域 */
 .nav-right {
   position: absolute;
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  /* box-shadow: 0 0 0 2rpx red; */
   justify-content: center;
   padding: 0 24rpx;
+  height: 100%;
+  z-index: 2;
 }
 
+/* 标题区域 */
 .nav-title {
   flex: 1;
   text-align: center;
@@ -34,4 +54,18 @@
   white-space: nowrap;
   font-weight: 500;
   font-size: 32rpx;
+  color: #333;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* 居中辅助类 */
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

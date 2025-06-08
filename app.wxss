@@ -2,5 +2,71 @@ view {
   box-sizing: border-box;
 }
 
-page {
+.p4 {
+  padding: 4px;
+}
+
+.p8 {
+  padding: 8px;
+}
+
+.p12 {
+  padding: 12px;
+}
+
+.p16 {
+  padding: 16px;
+}
+
+.p20 {
+  padding: 20px;
+}
+
+.p24 {
+  padding: 24px;
+}
+
+.p32 {
+  padding: 32px;
+}
+
+.m4 {
+  margin: 4px;
+}
+
+.m8 {
+  margin: 8px;
+}
+
+.m12 {
+  margin: 12px;
+}
+
+.m16 {
+  margin: 16px;
+}
+
+.m20 {
+  margin: 20px;
+}
+
+.m24 {
+  margin: 24px;
+}
+
+.m32 {
+  margin: 32px;
+}
+
+.page-container {
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #faf9f5;
+}
+
+.page-container-content {
+  flex: 1;
+  overflow-y: auto;
 }

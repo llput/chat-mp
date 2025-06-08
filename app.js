@@ -7,6 +7,8 @@ import reportEvent from './utils/report-event';
 import { EVENT_TYPES } from './utils/config';
 const wxp = {};
 
+global.__DEV__ = true;
+
 // 将微信小程序的 API Promise 化
 promisifyAll(wx, wxp);
 wx.pro = wxp;

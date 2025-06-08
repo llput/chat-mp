@@ -1,1 +1,22 @@
-<view class="safe-area-bottom" style="height: {{safeAreaHeight}}px; background-color: {{backgroundColor}};"></view>
+<!-- JS 方案：通过动态高度适配 -->
+<view wx:if="{{actualMethod === 'js' || actualMethod === 'fallback'}}" class="safe-area-bottom safe-area-js"
+  style="height: {{safeAreaHeight}}px; background-color: {{backgroundColor}};">
+</view>
+
+<!-- CSS 方案：通过 CSS env() 函数适配 -->
+<view wx:elif="{{actualMethod === 'css'}}" class="safe-area-bottom safe-area-css"
+  style="background-color: {{backgroundColor}};">
+</view>
+
+<!-- 调试信息 -->
+<!-- <view wx:if="{{showDebugInfo && debugInfo}}" class="debug-info">
+  <text class="debug-title">底部安全区域调试信息:</text>
+  <text class="debug-item">方案: {{actualMethod}}</text>
+  <text class="debug-item">高度: {{safeAreaHeight}}px</text>
+  <text class="debug-item">检测方法: {{debugInfo.detectionMethod}}</text>
+  <text class="debug-item">需要适配: {{debugInfo.needsAdaptation ? '是' : '否'}}</text>
+  <text wx:if="{{debugInfo.deviceInfo}}" class="debug-item">设备: {{debugInfo.deviceInfo.brand}}
+    {{debugInfo.deviceInfo.model}}</text>
+  <text class="debug-item">CSS支持: {{debugInfo.cssSupported ? '是' : '否'}}</text>
+  <text wx:if="{{hasError}}" class="debug-error">错误: {{debugInfo.error}}</text>
+</view> -->

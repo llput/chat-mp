@@ -1,0 +1,126 @@
+<!-- 底部安全区域适配测试页面 -->
+<custom-nav>
+  <view slot="left" class="nav-back-btn" bindtap="goBack">
+    <image src="/assets/icons/wx-arrow-back.svg" class="back-icon" mode="widthFix" />
+  </view>
+  <view slot="title">
+    <text>底部安全区域测试</text>
+  </view>
+</custom-nav>
+
+<view class="page-container" style="padding-top: {{totalHeight}}px;">
+  <view class="page-container-content p20">
+    <scroll-view scroll-y>
+
+      <!-- 设备信息 -->
+      <view class="info-section">
+        <view class="section-title">设备适配信息</view>
+        <view class="info-grid">
+          <view class="info-item">
+            <text class="label">需要适配</text>
+            <text class="value {{safeAreaInfo.needsAdaptation ? 'success' : 'normal'}}">
+              {{safeAreaInfo.needsAdaptation ? '是' : '否'}}
+            </text>
+          </view>
+          <view class="info-item">
+            <text class="label">安全区域高度</text>
+            <text class="value">{{safeAreaInfo.height}}px</text>
+          </view>
+          <view class="info-item">
+            <text class="label">检测方法</text>
+            <text class="value">{{safeAreaInfo.detectionMethod}}</text>
+          </view>
+          <view class="info-item">
+            <text class="label">CSS 支持</text>
+            <text class="value {{safeAreaInfo.cssSupported ? 'success' : 'warning'}}">
+              {{safeAreaInfo.cssSupported ? '支持' : '不支持'}}
+            </text>
+          </view>
+          <view wx:if="{{safeAreaInfo.deviceInfo}}" class="info-item">
+            <text class="label">设备型号</text>
+            <text class="value">{{safeAreaInfo.deviceInfo.brand}} {{safeAreaInfo.deviceInfo.model}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 适配方案测试 -->
+      <view class="info-section">
+        <view class="section-title">适配方案对比</view>
+
+        <!-- 方案选择 -->
+        <view class="method-selector">
+          <view class="method-item {{currentMethod === item.id ? 'active' : ''}}" wx:for="{{testMethods}}" wx:key="id"
+            data-method="{{item.id}}" bindtap="switchMethod">
+            <text class="method-name">{{item.name}}</text>
+            <view class="method-status">
+              <text class="status-badge {{testResults[item.id] ? testResults[item.id].status : 'warning'}}">
+                {{testResults[item.id] ? testResults[item.id].recommendation : '加载中'}}
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 当前方案详情 -->
+      <view class="info-section">
+        <view class="section-title">
+          当前方案：{{currentMethod === 'auto' ? '自动选择' : currentMethod === 'js' ? 'JS 方案' : 'CSS 方案'}}
+        </view>
+        <view wx:if="{{testResults[currentMethod]}}" class="method-details">
+          <view class="detail-item">
+            <text class="label">描述：</text>
+            <text class="value">{{testResults[currentMethod].description}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="label">支持情况：</text>
+            <text class="value {{testResults[currentMethod].supported ? 'success' : 'error'}}">
+              {{testResults[currentMethod].supported ? '支持' : '不支持'}}
+            </text>
+          </view>
+          <view class="detail-item">
+            <text class="label">推荐度：</text>
+            <text class="value">{{testResults[currentMethod].recommendation}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 实际效果演示 -->
+      <view class="demo-section">
+        <view class="section-title">实际效果演示</view>
+        <view class="demo-content">
+          <text class="demo-text">
+            这里是页面内容区域。如果您的设备有底部安全区域（如 iPhone X 系列），
+            下方的按钮应该不会被底部小黑条遮挡。
+          </text>
+
+          <!-- 模拟底部按钮 -->
+          <view class="demo-bottom-button">
+            <button class="demo-button primary">主要操作</button>
+            <button class="demo-button secondary">次要操作</button>
+          </view>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="action-section">
+        <button class="action-btn" bindtap="toggleDebug">
+          {{showDebug ? '隐藏' : '显示'}}调试信息
+        </button>
+        <button class="action-btn" bindtap="refreshTest">
+          刷新测试
+        </button>
+        <button class="action-btn" bindtap="copyResults">
+          复制结果
+        </button>
+      </view>
+
+      <!-- 额外间距，确保内容不被遮挡 -->
+      <view class="scroll-placeholder"></view>
+
+    </scroll-view>
+  </view>
+
+  <!-- 使用当前选择的方案进行适配 -->
+  <safe-area-bottom adaptationMethod="{{currentMethod}}" backgroundColor="#db7759" showDebugInfo="{{showDebug}}"
+    bind:init="onSafeAreaInit" bind:error="onSafeAreaError" />
+</view>

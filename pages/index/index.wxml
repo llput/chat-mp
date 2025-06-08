@@ -1,28 +1,74 @@
-<!-- pages/chat/index.wxml -->
+<!-- pages/index/index.wxml -->
 <custom-nav>
-  <view slot="title" class="center">
-    <text>金融助手</text>
+  <view slot="title" class="nav-title-wrapper">
+    <text>AI助手</text>
+    <text class="clear-btn" bindtap="onClearChat" wx:if="{{messages.length > 1}}">清空</text>
   </view>
 </custom-nav>
 
 <view class="page-container">
-  <view class="content p20">
-    <scroll-view scroll-y>
-      <view class="chat-item" wx:for="{{ 10 }}" wx:key="index">
-        <view class="chat-item-question">
-          <view class="chat-item-question-text">
-            在微信小程序的分享对话页面（loadShareDialogs功能）中，当调用分享对话接口时如果遇到登录态失效的情况，应该如何实现自动重定向到首页？请基于现有代码提供具体的实现方案。
+  <!-- 聊天消息列表 -->
+  <scroll-view class="chat-container" scroll-y scroll-top="{{scrollTop}}" scroll-into-view="{{scrollIntoView}}">
+    <view class="messages-wrapper">
+      <view class="message-item" wx:for="{{messages}}" wx:key="id" id="msg-{{item.id}}">
+        <!-- 用户消息 -->
+        <view class="user-message" wx:if="{{item.role === 'user'}}">
+          <view class="message-content">
+            <text>{{item.content}}</text>
+          </view>
+          <view class="message-avatar">
+            <text>👤</text>
           </view>
         </view>
-        <view class="chat-item-answer">
-          <view class="chat-item-answer-text">
-            改写后的清晰表达：
-            "在微信小程序的分享对话页面（loadShareDialogs功能）中，当调用分享对话接口时如果遇到登录态失效的情况，应该如何实现自动重定向到首页？请基于现有代码提供具体的实现方案。"
+
+        <!-- AI消息 -->
+        <view class="assistant-message" wx:else>
+          <view class="message-avatar">
+            <text>🤖</text>
+          </view>
+          <view class="message-content">
+            <!-- 正在输入指示器 -->
+            <view class="typing-indicator" wx:if="{{item.isStreaming && !item.content}}">
+              <view class="typing-dot"></view>
+              <view class="typing-dot"></view>
+              <view class="typing-dot"></view>
+            </view>
+
+            <!-- 消息内容 -->
+            <text wx:if="{{item.content}}" class="{{item.isError ? 'error-text' : ''}}">{{item.content}}</text>
+
+            <!-- 流式输入光标 -->
+            <text class="typing-cursor" wx:if="{{item.isStreaming && item.content}}">|</text>
+          </view>
+
+          <!-- 消息操作按钮 -->
+          <view class="message-actions" wx:if="{{!item.isStreaming && !item.isError}}">
+            <text class="action-btn" bindtap="onRegenerateMessage" data-message-id="{{item.id}}">🔄</text>
+            <text class="action-btn" bindtap="onCopyMessage" data-content="{{item.content}}">📋</text>
           </view>
         </view>
       </view>
-    </scroll-view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入区域 -->
+  <view class="input-container">
+    <!-- 取消按钮 -->
+    <view class="cancel-container" wx:if="{{isLoading}}">
+      <button class="cancel-btn" bindtap="cancelCurrentRequest">取消生成</button>
+    </view>
+
+    <!-- 输入框和发送按钮 -->
+    <view class="input-wrapper">
+      <textarea class="input-textarea" placeholder="输入你的问题..." value="{{inputText}}" bindinput="onInputChange"
+        disabled="{{isLoading}}" auto-height maxlength="2000" show-confirm-bar="{{false}}"></textarea>
+      <button class="send-btn {{inputText.trim() && !isLoading ? 'active' : 'disabled'}}" bindtap="onSendMessage"
+        disabled="{{!inputText.trim() || isLoading}}">
+        <text wx:if="{{!isLoading}}">发送</text>
+        <text wx:else>...</text>
+      </button>
+    </view>
   </view>
 
-  <safe-area-bottom backgroundColor="#db7759" />
+  <safe-area-bottom backgroundColor="#faf9f5" />
 </view>

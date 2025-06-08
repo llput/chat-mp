@@ -1,0 +1,288 @@
+.page-container {
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #faf9f5;
+}
+
+.page-container-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* 导航栏返回按钮 */
+.nav-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: -10px;
+}
+
+.back-icon {
+  width: 12px;
+  height: 24px;
+  font-weight: bold;
+}
+
+/* 信息区块 */
+.info-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* 信息网格 */
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.label {
+  font-size: 14px;
+  color: #666;
+  flex: 1;
+}
+
+.value {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  text-align: right;
+}
+
+.value.success {
+  color: #52c41a;
+}
+
+.value.warning {
+  color: #faad14;
+}
+
+.value.error {
+  color: #ff4d4f;
+}
+
+.value.normal {
+  color: #666;
+}
+
+/* 方案选择器 */
+.method-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.method-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid #f0f0f0;
+  border-radius: 8px;
+  background-color: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.method-item.active {
+  border-color: #1890ff;
+  background-color: #e6f7ff;
+}
+
+.method-item:active {
+  transform: scale(0.98);
+}
+
+.method-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.method-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.status-badge.success {
+  background-color: #52c41a;
+}
+
+.status-badge.warning {
+  background-color: #faad14;
+}
+
+.status-badge.error {
+  background-color: #ff4d4f;
+}
+
+/* 方案详情 */
+.method-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.detail-item .label {
+  font-weight: 500;
+  min-width: 80px;
+  flex: none;
+}
+
+.detail-item .value {
+  flex: 1;
+  text-align: left;
+}
+
+/* 演示区域 */
+.demo-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  min-height: 200px;
+}
+
+.demo-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.demo-text {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.demo-bottom-button {
+  margin-top: auto;
+  display: flex;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.demo-button {
+  flex: 1;
+  height: 44px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+}
+
+.demo-button.primary {
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.demo-button.primary:active {
+  background-color: #096dd9;
+}
+
+.demo-button.secondary {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #d9d9d9;
+}
+
+.demo-button.secondary:active {
+  background-color: #e6f7ff;
+}
+
+/* 操作按钮 */
+.action-section {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.action-btn:active {
+  background-color: #e6f7ff;
+}
+
+/* 响应式调整 */
+@media (max-width: 360px) {
+  .content {
+    padding: 16px;
+  }
+
+  .demo-bottom-button {
+    flex-direction: column;
+  }
+
+  .action-section {
+    flex-direction: column;
+  }
+}
+
+/*
+ * CSS 方案演示样式
+ * 实际项目中可以直接使用这些样式
+ */
+.css-safe-area-demo {
+  /* 方法1: padding-bottom 方案 */
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.css-safe-area-with-extra {
+  /* 方法2: 带额外间距的方案 */
+  padding-bottom: calc(20px + constant(safe-area-inset-bottom));
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
+}
+
+.css-safe-area-height {
+  /* 方法3: 高度调整方案 */
+  height: calc(50px + constant(safe-area-inset-bottom));
+  height: calc(50px + env(safe-area-inset-bottom));
+}

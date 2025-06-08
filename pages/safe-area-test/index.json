@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "底部安全区域测试",
+  "disableScroll": true,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "custom-nav": "/components/custom-nav/index",
+    "safe-area-bottom": "/components/safe-area-bottom/index"
+  }
+}

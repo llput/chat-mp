@@ -1,4 +1,11 @@
-import { getNavHeight, getStatusBarHeight, getNavContentHeight } from '../../utils/native';
+import { getNavHeight } from '../../utils/native';
+
+/**
+ * 判断是否为开发环境
+ */
+function isDevEnv() {
+  return global.__DEV__;
+}
 
 Component({
   properties: {
@@ -18,6 +25,15 @@ Component({
       type: Boolean,
       value: false,
     },
+    // 新增：是否显示调试信息
+    showDebugInfo: {
+      type: Boolean,
+      value: false,
+    },
+    backgroundColor: {
+      type: String,
+      value: '#faf9f5',
+    },
   },
 
   options: {
@@ -26,49 +42,136 @@ Component({
 
   data: {
     statusBarHeight: 0,
-    navContentHeight: 0, // 导航内容区高度
-    height: 0, // 总高度 = 状态栏 + 导航内容区
+    navBarHeight: 0,
+    totalHeight: 0,
     isDropdownOpen: false,
-    menuButtonWidth: 87, // 默认胶囊按钮宽度
-    menuButtonHeight: 32, // 默认胶囊按钮高度
+    menuButtonWidth: 87,
+    menuButtonHeight: 32,
+    menuRight: 7,
+
+    // 新增：错误状态和调试信息
+    hasError: false,
+    debugInfo: null,
   },
 
   lifetimes: {
     attached() {
-      const { statusBarHeight, navBarHeight, totalHeight, menuButtonRight, menuButtonHeight } =
-        getNavHeight();
+      this.initNavHeight();
+    },
 
-      this.setData({
-        statusBarHeight,
-        navBarHeight,
-        totalHeight,
-        // 胶囊相关间距
-        menuRight: menuButtonRight,
-        menuHeight: menuButtonHeight,
-      });
-
-      // 兼容性布局参数传递
-      this.triggerEvent('layout', {
-        statusBarHeight,
-        navBarHeight,
-        totalHeight,
-      });
+    // 组件显示时重新检查（处理某些边缘情况）
+    ready() {
+      // 延迟一点重新检查，确保页面完全加载
+      setTimeout(() => {
+        this.recheckNavHeight();
+      }, 100);
     },
   },
 
   methods: {
-    // 修改返回按钮处理方法
-    // handleBack() {
-    //   if (this.properties.pageType === 'recents') {
-    //     // 如果是在 recents 页面，返回到首页
-    //     wx.switchTab({
-    //       url: '/pages/index/index',
-    //     });
-    //   } else {
-    //     // 触发返回事件，让父组件处理返回逻辑
-    //     this.triggerEvent('back');
-    //   }
-    // },
+    /**
+     * 初始化导航栏高度
+     */
+    initNavHeight() {
+      try {
+        const navInfo = getNavHeight();
+
+        this.setData({
+          statusBarHeight: navInfo.statusBarHeight,
+          navBarHeight: navInfo.navBarHeight,
+          totalHeight: navInfo.totalHeight,
+          menuRight: navInfo.menuButtonRight,
+          menuHeight: navInfo.menuButtonHeight,
+          menuButtonWidth: navInfo.menuButtonWidth,
+          hasError: false,
+          debugInfo: isDevEnv() ? navInfo : null, // 开发环境保存调试信息
+        });
+
+        // 触发布局事件，传递完整的导航栏信息
+        this.triggerEvent('layout', {
+          statusBarHeight: navInfo.statusBarHeight,
+          navBarHeight: navInfo.navBarHeight,
+          totalHeight: navInfo.totalHeight,
+          platform: navInfo.platform,
+          dataSource: navInfo.dataSource,
+        });
+
+        // 开发环境输出日志
+        if (isDevEnv()) {
+          console.log('[custom-nav] 导航栏初始化完成:', navInfo);
+        }
+      } catch (error) {
+        console.error('[custom-nav] 导航栏初始化失败:', error);
+        this.handleNavHeightError(error);
+      }
+    },
+
+    /**
+     * 重新检查导航栏高度（处理异步加载情况）
+     */
+    recheckNavHeight() {
+      try {
+        const navInfo = getNavHeight();
+
+        // 检查是否与当前数据有较大差异
+        const currentTotal = this.data.totalHeight;
+        const newTotal = navInfo.totalHeight;
+
+        if (Math.abs(currentTotal - newTotal) > 5) {
+          console.log('[custom-nav] 检测到导航栏高度变化，更新数据');
+          this.setData({
+            statusBarHeight: navInfo.statusBarHeight,
+            navBarHeight: navInfo.navBarHeight,
+            totalHeight: navInfo.totalHeight,
+            menuRight: navInfo.menuButtonRight,
+            menuHeight: navInfo.menuButtonHeight,
+            hasError: false,
+          });
+
+          // 重新触发布局事件
+          this.triggerEvent('layout', {
+            statusBarHeight: navInfo.statusBarHeight,
+            navBarHeight: navInfo.navBarHeight,
+            totalHeight: navInfo.totalHeight,
+            platform: navInfo.platform,
+            dataSource: navInfo.dataSource,
+          });
+        }
+      } catch (error) {
+        console.error('[custom-nav] 重新检查导航栏高度失败:', error);
+      }
+    },
+
+    /**
+     * 处理导航栏高度获取错误
+     */
+    handleNavHeightError(error) {
+      // 设置错误状态和默认值
+      this.setData({
+        statusBarHeight: 20,
+        navBarHeight: 44,
+        totalHeight: 64,
+        menuRight: 7,
+        menuHeight: 32,
+        hasError: true,
+      });
+
+      // 触发错误事件
+      this.triggerEvent('error', {
+        type: 'nav_height_error',
+        error: error.message || '导航栏高度计算失败',
+        fallbackUsed: true,
+      });
+
+      // 在开发环境显示错误提示
+      if (isDevEnv()) {
+        wx.showToast({
+          title: '导航栏高度计算异常',
+          icon: 'none',
+          duration: 2000,
+        });
+      }
+    },
 
     toggleDropdown() {
       this.setData({
@@ -76,7 +179,6 @@ Component({
       });
     },
 
-    // 新增：隐藏下拉菜单方法
     hideDropdown() {
       this.setData({
         isDropdownOpen: false,
@@ -96,7 +198,6 @@ Component({
           url: '/pages/index/index',
         });
       } else {
-        // 触发返回事件，让父组件处理返回逻辑
         this.triggerEvent('left-icon-tap');
       }
     },
@@ -109,7 +210,6 @@ Component({
       this.triggerEvent('title-tap');
     },
 
-    // 在页面点击时关闭下拉菜单
     onPageClick() {
       if (this.data.isDropdownOpen) {
         this.setData({
@@ -119,10 +219,36 @@ Component({
     },
 
     handleAvatarError() {
-      // 处理头像加载失败的情况
       this.setData({
         avatarUrl: '/assets/images/default-avatar.png',
       });
+    },
+
+    /**
+     * 获取当前导航栏信息（供外部调用）
+     */
+    getNavInfo() {
+      return {
+        statusBarHeight: this.data.statusBarHeight,
+        navBarHeight: this.data.navBarHeight,
+        totalHeight: this.data.totalHeight,
+        hasError: this.data.hasError,
+        debugInfo: this.data.debugInfo,
+      };
+    },
+
+    /**
+     * 切换调试信息显示
+     */
+    toggleDebugInfo() {
+      this.triggerEvent('debug-toggle');
+    },
+
+    /**
+     * 手动刷新导航栏高度（供外部调用）
+     */
+    refreshNavHeight() {
+      this.initNavHeight();
     },
   },
 });

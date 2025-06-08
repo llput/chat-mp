@@ -1,0 +1,27 @@
+/* pages/chat/index.wxss */
+
+/* 引入 Towxml 默认样式 */
+@import '/towxml/style/main.wxss';
+@import '/towxml/style/theme/light.wxss';
+@import '/app.wxss';
+
+.chat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-item-question {
+  display: flex;
+  flex-direction: column;
+  background-color: #f0eee6;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.chat-item-answer {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 20px;
+}
